@@ -4,6 +4,7 @@ import {
     CardTitle, Breadcrumb, BreadcrumbItem
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CommentForm from './CommentForm';
 
 
 
@@ -65,6 +66,7 @@ function RenderComments({ comments }) {
                         <p>{comment.comment}</p>
                         <p>--{comment.author}{', '}{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p>
                     </div>
+                    
                 </div>
 
             );
@@ -72,6 +74,7 @@ function RenderComments({ comments }) {
         return (
             <div>
                 {Dishcomments}
+                <CommentForm/>
             </div>
         )
     }
