@@ -5,7 +5,7 @@ import {
     Button, Row, Col, Label, Modal, ModalHeader, ModalBody
 } from 'reactstrap';
 
-import { Control, Form, Errors, actions } from 'react-redux-form';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
@@ -31,12 +31,11 @@ class CommentForm extends React.Component {
         });
     }
     handelSubmitComment(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        this.props.resetFeedbackForm();
-        // event.preventDefault();
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+
+
     }
-    
     render() {
         return (
             <div>
@@ -49,7 +48,7 @@ class CommentForm extends React.Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                     <ModalBody>
-                        <Form model="feedback" onSubmit={(values) => this.handelSubmitComment(values)}>
+                        <LocalForm onSubmit={(values) => this.handelSubmitComment(values)}>
                             <Row>
                                 <Label htmlFor="rating" className="labels" md={12}>Rating</Label>
                                 <Col md={12}>
@@ -99,7 +98,7 @@ class CommentForm extends React.Component {
                                     </Button>
                                 </Col>
                             </Row>
-                        </Form>
+                        </LocalForm>
                     </ModalBody>
                 </Modal>
             </div>
