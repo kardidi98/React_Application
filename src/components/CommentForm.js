@@ -8,7 +8,7 @@ const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
 
-class Header extends Component {
+class CommentForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
