@@ -47,11 +47,7 @@ class Main extends Component {
           comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))} />
       );
     };
-    const AboutPage = () => {
-      return (
-        <About leaders={this.state.leaders} />
-      );
-    }
+   
 
 
     return (
