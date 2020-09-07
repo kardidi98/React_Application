@@ -1,32 +1,12 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
-function RenderLeaders({leaders}){
-    const leaderList =leaders.map((leader) => {
-        return (
-            <div key={leader.id} className="col-12 mt-5">
-                    <Media tag="li">
-                        <Media left middle>
-                            <Media object src={leader.image} alt={leader.name} />
-                        </Media>
-                        <Media body className="title ml-5">
-                            <Media heading>{leader.name}</Media>
-                            <p>{leader.designation}</p>
-                            <p>{leader.description}</p>
-                        </Media>
-                    </Media>
-                </div>
-        );
-    });
-    return (leaderList);
-}
-
-function  About(props) {
-
-    
-
-    return(
+function Info() {
+    return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -36,7 +16,7 @@ function  About(props) {
                 <div className="col-12">
                     <h3>About Us</h3>
                     <hr />
-                </div>                
+                </div>
             </div>
             <div className="row row-content">
                 <div className="col-12 col-md-6">
@@ -66,28 +46,93 @@ function  About(props) {
                         <CardBody className="bg-faded">
                             <blockquote className="blockquote">
                                 <p className="mb-0">You better cut the pizza in four pieces because
-                                    I'm not hungry enough to eat six.</p>
+                    I'm not hungry enough to eat six.</p>
                                 <footer className="blockquote-footer">Yogi Berra,
-                                <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
-                                    P. Pepe, Diversion Books, 2014</cite>
+                <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
+                    P. Pepe, Diversion Books, 2014</cite>
                                 </footer>
                             </blockquote>
                         </CardBody>
                     </Card>
                 </div>
             </div>
-            <div className="row row-content">
-                <div className="col-12">
-                    <h2>Corporate Leadership</h2>
-                </div>
-                <div className="col-12">
-                    <Media list>
-                        <RenderLeaders leaders={props.leaders}/>
-                    </Media>
+        </div>);
+}
+
+const About = (props) => {
+    if (props.leaders.isLoading) {
+        return (
+            <div>
+                <Info />
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+    else if (props.leaders.errMess) {
+        return (
+            <div>
+                <Info />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12">
+                            <h4>{props.leaders.errMess}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    else {
+
+        const leaderList = props.leaders.leaders.map((leader) => {
+            return (
+                <div key={leader.id} className="col-12 mt-5">
+                    <Fade in transformProps={{
+                        exitTransform: 'scale(0.5) translateY(-50%)'
+                    }}>
+                        <Media tag="li">
+                            <Media left middle>
+                                <Media object src={baseUrl + leader.image} alt={leader.name} />
+                            </Media>
+                            <Media body className="title ml-5">
+                                <Media heading>{leader.name}</Media>
+                                <p>{leader.designation}</p>
+                                <p>{leader.description}</p>
+                            </Media>
+                        </Media>
+                    </Fade>
+                </div>
+
+            );
+        });
+        return (
+            <div>
+                <Info />
+                <div className="container">
+
+                    <div className="row row-content">
+                        <div className="col-12">
+                            <h2>Corporate Leadership</h2>
+                        </div>
+                        <div className="col-12">
+                            <Media list>
+                                <Stagger in>
+                                    {leaderList}
+                                </Stagger>
+                            </Media>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+
 }
 
 export default About;    
